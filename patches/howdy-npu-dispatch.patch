@@ -1,0 +1,30 @@
+--- a/usr/lib/howdy/compare.py
++++ b/usr/lib/howdy/compare.py
+@@ -1,6 +1,27 @@
+ # Compare incoming video with known faces
+ # Running in a local python instance to get around PATH issues
+ 
++# Local NPU backend dispatch. Run before importing dlib so CPU models are not
++# initialized. The existing pam_howdy module retains its account/lid/SSH checks;
++# all NPU failures return to the unchanged PAM password path.
++import configparser as _npu_configparser
++import os as _npu_os
++import sys as _npu_sys
++
++_npu_config = _npu_configparser.ConfigParser()
++try:
++	_npu_config.read('/etc/howdy/config.ini')
++	if _npu_config.getboolean('npu', 'enabled', fallback=False):
++		if len(_npu_sys.argv) != 2:
++			_npu_sys.exit(12)
++		_npu_os.execv('/usr/bin/python', [
++			'/usr/bin/python', '-I', '/usr/local/lib/howdy-npu/backend.py',
++			'auth', '--user', _npu_sys.argv[1],
++		])
++except Exception:
++	# Never fall through to a different recognizer on an NPU/config error.
++	_npu_sys.exit(12)
++
+ # Import time so we can start timing asap
+ import time
+ 

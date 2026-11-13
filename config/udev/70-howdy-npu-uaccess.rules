@@ -1,0 +1,2 @@
+# Grant Intel NPU access to the active local seat, as for the IR camera.
+SUBSYSTEM=="accel", KERNEL=="accel[0-9]*", ATTRS{vendor}=="0x8086", TAG+="uaccess"

@@ -1,0 +1,13 @@
+#!/bin/sh
+# Restore exactly the original Howdy config/compare script. PAM was not changed.
+set -eu
+if [ "$(id -u)" -ne 0 ]; then
+    echo 'Run with sudo.' >&2
+    exit 1
+fi
+backup=/var/lib/howdy-npu/backup
+# Restore config first: this disables NPU dispatch even before compare is restored.
+install -o root -g root -m 644 "$backup/config.ini" /etc/howdy/config.ini
+install -o root -g root -m 444 "$backup/compare.py" /usr/lib/howdy/compare.py
+echo 'Original dlib-based Howdy restored. Existing dlib enrollment was not changed.'
+echo 'NPU templates/dependencies are retained, but no longer used for login.'

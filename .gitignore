@@ -1,0 +1,16 @@
+# Never put personal credentials, enrollments, or keyring backups in this project.
+*.secret
+*.pending
+*.keyring
+*.keystore
+*.dat
+*.npz
+*.npy
+.env
+.env.*
+private/
+secrets/
+backups/
+__pycache__/
+*.py[cod]
+.pytest_cache/

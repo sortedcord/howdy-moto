@@ -1,0 +1,8 @@
+#%PAM-1.0
+# Keep account restrictions ahead of face authentication.
+auth required pam_shells.so
+auth requisite pam_nologin.so
+auth required pam_faillock.so preauth
+# IR face unlock; continue to normal password authentication on failure.
+auth sufficient pam_howdy.so
+auth include login

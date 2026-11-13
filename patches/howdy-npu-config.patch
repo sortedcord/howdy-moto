@@ -1,0 +1,16 @@
+--- a/etc/howdy/config.ini
++++ b/etc/howdy/config.ini
+@@ -116,6 +116,13 @@
+ stamp_rules =
+ 	nod		5s		failsafe     min_distance=12
+ 
++[npu]
++# Local experimental OpenVINO backend. All three neural models run on NPU.
++# Failures go to the existing PAM password path, not dlib/CPU recognition.
++# Enrollment: sudo howdy-npu enroll --user USER --label LABEL
++# Dlib CLI models are separate; use howdy-npu for NPU enrollment/inspection.
++enabled = true
++
+ [debug]
+ # Show a short but detailed diagnostic report in console
+ # Enabling this can cause some UI apps to fail, only enable it to debug
